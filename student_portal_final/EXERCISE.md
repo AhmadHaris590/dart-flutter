@@ -83,6 +83,70 @@ Show:
 - Use enum `UserRole.student`
 - Add logout button
 
+### 8. Provider Counter
+
+Create `CourseCounterProvider`.
+
+It should:
+
+- extend `ChangeNotifier`
+- have private `_count`
+- have getter `count`
+- have `increment()`
+- have `reset()`
+- call `notifyListeners()` after changing data
+
+Wrap your app with:
+
+```dart
+ChangeNotifierProvider(
+  create: (context) => CourseCounterProvider(),
+  child: const CourseManagerApp(),
+)
+```
+
+Use `Consumer<CourseCounterProvider>` on the Home screen.
+
+### 9. Real API Screen
+
+Create a `PostsScreen` or `ApiScreen`.
+
+It should:
+
+- use the `http` package
+- call `https://jsonplaceholder.typicode.com/posts`
+- use `http.get`
+- use `jsonDecode`
+- convert JSON maps into model objects
+- show data with `FutureBuilder`
+- show posts with `ListView.builder`
+
+Bonus:
+
+- add `POST`
+- add `PUT`
+- add `DELETE`
+
+### 10. Widget Practice Screen
+
+Create a `WidgetsPracticeScreen`.
+
+It must include:
+
+- `GridView`
+- `Row`
+- `Container`
+- `Image.network`
+- `SingleChildScrollView`
+- `Stack`
+- `Positioned`
+
+Simple idea:
+
+- top section: `Row` with 3 colored `Container`s
+- middle section: `Stack` with `Image.network` and `Positioned` label
+- bottom section: `GridView.count` with colored boxes
+
 ## Challenge Function
 
 Write this callback function:
@@ -105,3 +169,13 @@ List<Course> filterCourses(
 ```
 
 Use it to get completed courses.
+
+## Super Important
+
+When you finish, you should have these tabs:
+
+1. Home
+2. Courses
+3. API
+4. Widgets
+5. Profile

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:student_portal_final/models/user_role.dart';
 import 'package:student_portal_final/screens/home_screen.dart';
+import 'package:student_portal_final/screens/posts_screen.dart';
 import 'package:student_portal_final/screens/profile_screen.dart';
 import 'package:student_portal_final/screens/students_screen.dart';
+import 'package:student_portal_final/screens/widgets_gallery_screen.dart';
 
 // StatefulWidget because selectedIndex changes when user taps bottom tabs.
 class DashboardScreen extends StatefulWidget {
@@ -24,12 +26,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final List<Widget> screens = [
       HomeScreen(email: email),
       const StudentsScreen(),
+      const PostsScreen(),
+      const WidgetsGalleryScreen(),
       ProfileScreen(email: email, role: UserRole.student),
     ];
 
     return Scaffold(
       body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
         onTap: (int index) {
           setState(() {
@@ -44,6 +49,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Students',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.cloud_download),
+            label: 'API',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.widgets),
+            label: 'Widgets',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

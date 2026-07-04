@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:student_portal_final/providers/counter_provider.dart';
 import 'package:student_portal_final/screens/dashboard_screen.dart';
 import 'package:student_portal_final/screens/login_screen.dart';
 
 // main() is the first function Dart runs.
 // runApp() puts the first Flutter widget on the screen.
 void main() {
-  runApp(const StudentPortalApp());
+  runApp(
+    // ChangeNotifierProvider puts one CounterProvider object above the app.
+    // Any screen below this point can listen to it with Consumer.
+    ChangeNotifierProvider(
+      create: (context) => CounterProvider(),
+      child: const StudentPortalApp(),
+    ),
+  );
 }
 
 // This is the root widget of the app.

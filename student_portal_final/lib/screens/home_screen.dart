@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:student_portal_final/providers/counter_provider.dart';
 
-// StatefulWidget because counter changes.
-class HomeScreen extends StatefulWidget {
+// StatelessWidget is enough here because Provider stores the counter.
+// The widget does not need its own int counter variable anymore.
+class HomeScreen extends StatelessWidget {
   final String email;
 
   const HomeScreen({super.key, required this.email});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(title: const Text('Home')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            counter++;
-          });
+          // read() calls the provider method one time.
+          // It does not rebuild this button when the value changes.
+          context.read<CounterProvider>().increment();
         },
         child: const Icon(Icons.add),
       ),
@@ -31,14 +27,28 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${widget.email}',
+              'Welcome, $email',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
-            Text('Counter value: $counter'),
+            // Consumer listens to CounterProvider.
+            // When notifyListeners() runs, only this part rebuilds.
+            Consumer<CounterProvider>(
+              builder: (context, counterProvider, child) {
+                return Text('Provider counter: ${counterProvider.count}');
+              },
+            ),
             const SizedBox(height: 16),
             const Text(
-              'This app covers Dart models, maps, lists, functions, callbacks, enums, async, FutureBuilder, navigation, forms, and setState.',
+              'Tap +. The number changes because CounterProvider calls notifyListeners().',
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                context.read<CounterProvider>().reset();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Reset provider counter'),
             ),
           ],
         ),
